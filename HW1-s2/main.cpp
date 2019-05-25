@@ -299,60 +299,53 @@ void removeStudent(string name) {
 	string fio, cathedra;
 	int semester;
 	cout << "Enter fio: "; getline(cin, fio);
-	cout << "Enter cathedra: "; getline(cin, cathedra);
-	cout << "Enter semester: "; 
-	while (true) {
-		cin >> semester;
-		if (cin.fail()) {
-			cout << "Error!Try again" << endl;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		}
-		else
-			break;
-	}
-	Student* student = new Student(fio, cathedra, semester);
 	DataBase loi(name + ".txt");
-	loi.remove(student);
+	loi.remove(fio);
 }
 
 void start() {
 	cout << "Hello,nothingholy!" << endl;
 	while (true) {
-		cout << "Command: ";
-		string res;
-		getline(cin, res);
-		vector<string> results;
-		if (res != "") {
-			results = split(res, " ");
-			if (results.size() == 1) {
-				if (results[0] == "help")
-					help();
-				else if (results[0] == "view")
-					show();
-				else if (results[0] == "exit")
-					return;
-				else
-					cout << "Wrong command" << endl;
+		try{
+			cout << "Command: ";
+			string res;
+			getline(cin, res);
+			vector<string> results;
+			if (res != "") {
+				results = split(res, " ");
+				if (results.size() == 1) {
+					if (results[0] == "help")
+						help();
+					else if (results[0] == "view")
+						show();
+					else if (results[0] == "exit")
+						return;
+					else
+						throw exception("Wrong command");
+				}
+				else {
+					if (results[0] == "create")
+						create(results[1]);
+					else if (results[0] == "show")
+						showDB(results[1]);
+					else if (results[0] == "edit")
+						edit(results[1]);
+					else if (results[0] == "sort")
+						sortDB(results[1]);
+					else if (results[0] == "count")
+						countExecellent(results[1]);
+					else if (results[0] == "delete")
+						removeStudent(results[1]);
+					else if (results[0] == "choose")
+						choose(results[1], results[2]);
+					else
+						throw exception("Wrong command");
+				}
 			}
-			else {
-				if (results[0] == "create")
-					create(results[1]);
-				else if (results[0] == "show")
-					showDB(results[1]);
-				else if (results[0] == "edit")
-					edit(results[1]);
-				else if (results[0] == "sort")
-					sortDB(results[1]);
-				else if (results[0] == "count")
-					countExecellent(results[1]);
-				else if (results[0] == "delete")
-					removeStudent(results[1]);
-				else if (results[0] == "choose")
-					choose(results[1], results[2]);
-				else
-					cout << "Wrong command" << endl;
-			}
+		}
+		catch (exception& err)
+		{
+			cout << "Error:" << err.what() << endl;
 		}
 	}
 }

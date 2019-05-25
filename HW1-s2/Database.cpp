@@ -109,11 +109,11 @@ int DataBase::countEcellent()
 }
 
 
-bool DataBase::remove(Student* student)
+bool DataBase::remove(string FIO)
 {
 	vector<Student*> list = this->getData();
 	for (int i = 0; i < list.size(); i++) {
-		if (*student == *list[i]) {
+		if (FIO == list[i]->getFIO()) {
 			list.erase(list.begin()+i);
 			this->save(list, true);
 			return true;

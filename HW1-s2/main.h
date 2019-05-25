@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <ios>
 #include <limits>
+#include <exception>
 
 using namespace std;
 namespace fs = experimental::filesystem;
@@ -32,7 +33,7 @@ public:
 	}
 	virtual string getFIO();
 	virtual int getSemester();
-	virtual string toString();
+	virtual string toString() = 0;
 };
 
 bool operator==(Student& a, Student& b);
@@ -88,5 +89,5 @@ public:
 	vector<Student*> searchbyName(string);
 	vector<Student*> searchbySub(string);
 	int countEcellent();
-	bool remove(Student*);
+	bool remove(string);
 };
